@@ -1,3 +1,5 @@
+"""Validate the required structure and integrity of the movie sentiment project."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -32,6 +34,7 @@ REQUIRED_PATHS = [
 
 
 def main() -> int:
+    """Run repository validation and return a command-line exit status."""
     missing = [path for path in REQUIRED_PATHS if not Path(path).exists()]
     if missing:
         for path in missing:

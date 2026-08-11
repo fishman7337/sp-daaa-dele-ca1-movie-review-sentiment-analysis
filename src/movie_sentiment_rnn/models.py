@@ -1,3 +1,5 @@
+"""Configurable TensorFlow recurrent architectures and training callbacks."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -8,13 +10,21 @@ Task = Literal["classification", "regression"]
 
 
 class HyperParameters(Protocol):
-    def Choice(self, name: str, values: list[int] | list[float]) -> int | float: ...
+    """Subset of the Keras Tuner hyperparameter interface used by builders."""
 
-    def Float(self, name: str, min_value: float, max_value: float, step: float) -> float: ...
+    def Choice(self, name: str, values: list[int] | list[float]) -> int | float:
+        """Choose one discrete hyperparameter value."""
+        ...
+
+    def Float(self, name: str, min_value: float, max_value: float, step: float) -> float:
+        """Choose one stepped floating-point hyperparameter value."""
+        ...
 
 
 @dataclass(frozen=True)
 class ModelConfig:
+    """Architecture, task, vocabulary, sequence, and output configuration."""
+
     architecture: Architecture = "gru"
     task: Task = "classification"
     input_length: int = 100
@@ -26,10 +36,12 @@ class DefaultHyperParameters:
     """Small Keras-Tuner compatible object for deterministic default builds."""
 
     def Choice(self, name: str, values: list[int] | list[float]) -> int | float:
+        """Return the first discrete value for a deterministic default build."""
         del name
         return values[0]
 
     def Float(self, name: str, min_value: float, max_value: float, step: float) -> float:
+        """Return the lower bound for a deterministic default build."""
         del name, max_value, step
         return min_value
 
@@ -83,12 +95,14 @@ def _keras_imports():
 
 
 def learning_rate_schedule(epoch: int, learning_rate: float) -> float:
+    """Halve the learning rate after each completed ten-epoch interval."""
     if epoch and epoch % 10 == 0:
         return learning_rate * 0.5
     return learning_rate
 
 
 def build_callbacks(checkpoint_path: str | None = None):
+    """Build early-stopping, scheduling, and optional checkpoint callbacks."""
     keras = _keras_imports()
     callbacks = [
         keras["EarlyStopping"](monitor="val_loss", patience=10, restore_best_weights=True),
@@ -103,6 +117,7 @@ def build_callbacks(checkpoint_path: str | None = None):
 
 
 def build_model(config: ModelConfig, hp: HyperParameters | None = None):
+    """Build and compile the configured recurrent sentiment model."""
     hp = hp or DefaultHyperParameters()
     keras = _keras_imports()
     recurrent_layer = {
@@ -224,8 +239,10 @@ def _add_dense_block(
 
 
 def build_classifier(architecture: Architecture = "gru", **kwargs):
+    """Build a binary sentiment classifier for the requested architecture."""
     return build_model(ModelConfig(architecture=architecture, task="classification", **kwargs))
 
 
 def build_regressor(architecture: Architecture = "gru", **kwargs):
+    """Build a sentiment-score regressor for the requested architecture."""
     return build_model(ModelConfig(architecture=architecture, task="regression", **kwargs))

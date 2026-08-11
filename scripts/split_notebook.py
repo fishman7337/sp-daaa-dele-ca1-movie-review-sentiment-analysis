@@ -1,3 +1,5 @@
+"""Split the source coursework notebook into deterministic section notebooks."""
+
 from __future__ import annotations
 
 import copy
@@ -33,6 +35,7 @@ CHAPTERS = [
 
 
 def main() -> int:
+    """Regenerate section notebooks and return a command-line exit status."""
     notebook = json.loads(SOURCE_NOTEBOOK.read_text(encoding="utf-8"))
     cells = notebook["cells"]
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -47,8 +50,7 @@ def main() -> int:
                 "source": [
                     f"# {title}\n",
                     "\n",
-                    "Generated from `notebooks/DELE_CA1_B.ipynb` "
-                    "by `scripts/split_notebook.py`.\n",
+                    "Generated from `notebooks/DELE_CA1_B.ipynb` by `scripts/split_notebook.py`.\n",
                 ],
             },
             *copy.deepcopy(selected),

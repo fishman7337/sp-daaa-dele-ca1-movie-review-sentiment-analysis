@@ -2,6 +2,15 @@
 
 Movie Sentiment RNN is a Deep Learning CA1 Part B project for movie review sentiment classification and rating prediction. It keeps the original notebook submission intact while adding a production-minded project layout, reusable Python modules, tests, CI, and MLOps documentation.
 
+## Evidence and interpretation
+
+| Evidence-backed measure | Current repository evidence |
+| --- | --- |
+| Data split | The pipeline produces a leakage-safe **80% train / 10% validation / 10% test** split. |
+| Model families | SimpleRNN, LSTM, and GRU architectures support both classification and regression experiments. |
+
+The qualitative outcome is a reproducible recurrent-model comparison with cleaning, augmentation, tokenisation, training, and evaluation. No architecture is labelled “best” without an exact held-out metric and pinned run.
+
 ## Academic Context
 
 This project was completed under Singapore Polytechnic, School of Computing, Diploma in Applied AI and Analytics, for the module Deep Learning (ST1504), CA1, Part B.
