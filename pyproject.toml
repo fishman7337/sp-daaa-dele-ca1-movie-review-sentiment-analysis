@@ -28,7 +28,6 @@ dependencies = [
 
 [project.optional-dependencies]
 notebook = [
-  "deep-translator>=1.11",
   "ipykernel>=6.29",
   "keras-tuner>=1.4",
   "langdetect>=1.0",
@@ -36,7 +35,9 @@ notebook = [
   "nltk>=3.8",
   "plotly>=5.20",
   "seaborn>=0.13",
+  "sentencepiece>=0.2",
   "tensorflow>=2.16; python_version < '3.13'",
+  "torch>=2.2",
   "tqdm>=4.66",
   "transformers>=4.40",
   "visualkeras>=0.1"
@@ -58,6 +59,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 addopts = "-q --strict-markers --strict-config"
+pythonpath = ["src"]
 testpaths = ["tests"]
 
 [tool.ruff]

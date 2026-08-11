@@ -104,6 +104,12 @@ Generate the split chapter notebooks:
 python scripts/split_notebook.py
 ```
 
+Verify that committed chapters match the source notebook:
+
+```bash
+python scripts/split_notebook.py --check
+```
+
 Inspect a dataset quality report:
 
 ```bash

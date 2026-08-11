@@ -47,3 +47,6 @@ jobs:
 
       - name: Validate project structure
         run: python scripts/validate_project.py
+
+      - name: Verify split notebooks
+        run: python scripts/split_notebook.py --check

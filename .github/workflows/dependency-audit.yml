@@ -16,7 +16,6 @@ jobs:
     timeout-minutes: 30
     name: pip-audit
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - name: Check out repository
@@ -32,3 +31,6 @@ jobs:
 
       - name: Audit runtime dependencies
         run: pip-audit -r requirements.txt
+
+      - name: Audit notebook dependencies
+        run: pip-audit -r requirements-notebook.txt --skip-editable

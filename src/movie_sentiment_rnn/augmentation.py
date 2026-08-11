@@ -38,12 +38,12 @@ def upsample_to_largest_class(
 
 
 def score_band(score: float) -> str:
-    """Map a normalized score to its augmentation priority band."""
+    """Map a normalized score to its low, mid, or high value band."""
     if score < 0.4:
-        return "high"
+        return "low"
     if score < 0.7:
         return "mid"
-    return "low"
+    return "high"
 
 
 def add_score_band(frame: pd.DataFrame, score_column: str = "Score") -> pd.DataFrame:
