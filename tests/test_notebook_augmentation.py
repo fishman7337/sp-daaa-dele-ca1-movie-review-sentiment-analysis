@@ -1,14 +1,28 @@
 import ast
+import importlib.util
 import json
 from pathlib import Path
+from types import ModuleType
 
 from movie_sentiment_rnn.augmentation import score_band
-from scripts.split_notebook import notebook_matches
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_NOTEBOOK = ROOT / "notebooks" / "DELE_CA1_B.ipynb"
 SETUP_CHAPTER = ROOT / "notebooks" / "chapters" / "01_imports_and_setup.ipynb"
 PREPROCESSING_CHAPTER = ROOT / "notebooks" / "chapters" / "04_data_preprocessing.ipynb"
+
+
+def _load_split_notebook() -> ModuleType:
+    path = ROOT / "scripts" / "split_notebook.py"
+    spec = importlib.util.spec_from_file_location("movie_split_notebook", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Unable to load notebook splitter from {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+notebook_matches = _load_split_notebook().notebook_matches
 
 
 def _cells(path: Path, cell_type: str | None = None) -> list[str]:
