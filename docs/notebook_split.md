@@ -8,6 +8,12 @@ Generate them with:
 python scripts/split_notebook.py
 ```
 
+Verify them without modifying files:
+
+```bash
+python scripts/split_notebook.py --check
+```
+
 ## Generated Chapters
 
 | File | Original section |
@@ -25,4 +31,4 @@ python scripts/split_notebook.py
 
 ## Regeneration Policy
 
-The split notebooks are derived artifacts. If `notebooks/DELE_CA1_B.ipynb` changes, regenerate the chapter notebooks and review the diff.
+The split notebooks are derived artifacts. If `notebooks/DELE_CA1_B.ipynb` changes, regenerate the chapter notebooks and review the diff. CI runs the check command so stale chapter notebooks cannot pass unnoticed.

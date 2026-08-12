@@ -1,3 +1,5 @@
+"""Command-line utilities for configuration and dataset quality reporting."""
+
 from __future__ import annotations
 
 import argparse
@@ -9,6 +11,7 @@ from movie_sentiment_rnn.data import build_quality_report, load_reviews_csv
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build the project command-line argument parser."""
     parser = argparse.ArgumentParser(description="Movie Sentiment RNN utilities")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -22,6 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Execute the requested utility command and return its exit status."""
     parser = build_parser()
     args = parser.parse_args(argv)
 

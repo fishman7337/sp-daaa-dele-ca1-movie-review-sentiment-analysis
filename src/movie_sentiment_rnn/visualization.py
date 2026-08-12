@@ -1,7 +1,10 @@
+"""Visualization helpers for TensorFlow training histories."""
+
 from __future__ import annotations
 
 
 def plot_training_history(history, title: str = "Training History"):
+    """Plot available training and validation metrics over epochs."""
     try:
         import matplotlib.pyplot as plt
     except ImportError as exc:

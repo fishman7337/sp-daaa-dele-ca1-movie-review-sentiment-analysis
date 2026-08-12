@@ -1,3 +1,5 @@
+"""Regression and classification evaluation metrics for sentiment models."""
+
 from __future__ import annotations
 
 import math
@@ -17,6 +19,7 @@ from sklearn.metrics import (
 
 
 def regression_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
+    """Calculate RMSE, MAE, and coefficient of determination."""
     true = np.asarray(y_true, dtype=float)
     pred = np.asarray(y_pred, dtype=float)
     mse = mean_squared_error(true, pred)
@@ -30,6 +33,7 @@ def regression_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, floa
 
 
 def regression_report(y_true: np.ndarray, y_pred: np.ndarray) -> pd.DataFrame:
+    """Return regression metrics as a presentation-ready dataframe."""
     metrics = regression_metrics(y_true, y_pred)
     return pd.DataFrame(
         {
@@ -46,6 +50,7 @@ def regression_report(y_true: np.ndarray, y_pred: np.ndarray) -> pd.DataFrame:
 
 
 def classification_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
+    """Calculate accuracy, precision, recall, and F1 for binary labels."""
     true = np.asarray(y_true)
     pred = np.asarray(y_pred)
     return {

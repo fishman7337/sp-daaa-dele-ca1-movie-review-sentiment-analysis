@@ -1,3 +1,5 @@
+"""Deterministic review-text normalization and token processing."""
+
 from __future__ import annotations
 
 import re
@@ -62,14 +64,17 @@ PUNCTUATION_PATTERN = re.compile(f"[{re.escape(string.punctuation)}]")
 
 
 def normalise_whitespace(text: str) -> str:
+    """Collapse repeated whitespace to single spaces."""
     return " ".join(str(text).split())
 
 
 def remove_punctuation(text: str) -> str:
+    """Remove punctuation and normalize the remaining whitespace."""
     return normalise_whitespace(PUNCTUATION_PATTERN.sub("", str(text)))
 
 
 def tokenize(text: str) -> list[str]:
+    """Return lowercase alphanumeric word tokens."""
     return TOKEN_PATTERN.findall(str(text).lower())
 
 
@@ -79,6 +84,7 @@ def remove_stopwords(
     *,
     extra_stopwords: Iterable[str] | None = None,
 ) -> str:
+    """Remove configured or NLTK stopwords from a text string."""
     language_key = language.lower()
     if language_key == "english":
         stopwords = set(ENGLISH_STOPWORDS)
@@ -94,6 +100,7 @@ def remove_stopwords(
 
 
 def lemmatise_text(text: str, language: str = "english") -> str:
+    """Lemmatize English text when NLTK resources are available."""
     if language.lower() != "english":
         return normalise_whitespace(text)
 
@@ -110,6 +117,7 @@ def lemmatise_text(text: str, language: str = "english") -> str:
 
 
 def preprocess_review(text: str, language: str = "english") -> str:
+    """Apply lowercase, punctuation, stopword, and lemmatization steps."""
     lowered = str(text).lower()
     without_punctuation = remove_punctuation(lowered)
     without_stopwords = remove_stopwords(without_punctuation, language)

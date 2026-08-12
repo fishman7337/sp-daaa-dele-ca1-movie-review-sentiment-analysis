@@ -1,3 +1,5 @@
+"""Environment-backed configuration for data, model, and report artifacts."""
+
 from __future__ import annotations
 
 import os
@@ -42,6 +44,7 @@ class ProjectConfig:
 
     @classmethod
     def from_env(cls, env_file: str | Path = ".env") -> ProjectConfig:
+        """Build a project configuration from an optional environment file."""
         _load_dotenv_if_available(env_file)
         return cls(
             data_raw_path=Path(os.getenv("DATA_RAW_PATH", "data/raw/Movie reviews.csv")),
@@ -58,5 +61,6 @@ class ProjectConfig:
         )
 
     def ensure_artifact_dirs(self) -> None:
+        """Create the configured processed-data, model, and report directories."""
         for path in (self.data_processed_dir, self.model_dir, self.report_dir):
             path.mkdir(parents=True, exist_ok=True)

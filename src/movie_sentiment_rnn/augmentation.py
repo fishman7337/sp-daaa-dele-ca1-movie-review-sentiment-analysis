@@ -1,3 +1,5 @@
+"""Class-balancing and score-band augmentation helpers."""
+
 from __future__ import annotations
 
 import pandas as pd
@@ -11,7 +13,6 @@ def upsample_to_largest_class(
     source_column: str = "source",
 ) -> pd.DataFrame:
     """Balance labels by sampling minority classes with replacement."""
-
     counts = frame[label_column].value_counts()
     if counts.empty:
         return frame.copy()
@@ -37,14 +38,16 @@ def upsample_to_largest_class(
 
 
 def score_band(score: float) -> str:
+    """Map a normalized score to its low, mid, or high value band."""
     if score < 0.4:
-        return "high"
+        return "low"
     if score < 0.7:
         return "mid"
-    return "low"
+    return "high"
 
 
 def add_score_band(frame: pd.DataFrame, score_column: str = "Score") -> pd.DataFrame:
+    """Return a dataframe copy with a derived ``Score_Band`` column."""
     banded = frame.copy()
     banded["Score_Band"] = banded[score_column].apply(score_band)
     return banded
